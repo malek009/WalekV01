@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Data.IRepositories;
 using WalekV01.Providers.Sql.Models;
@@ -43,9 +38,10 @@ namespace WalekV01.Providers.Sql.Repositories
             return await this._context.Videos.AsNoTracking().AnyAsync(r => r.Id == id);
         }
 
-        public Task<IEnumerable<VideoCore>> FindAsync(VideoSearchParameters searchParameters)
+        public async Task<IEnumerable<VideoCore>> FindAsync(VideoSearchParameters searchParameters)
         {
-            throw new NotImplementedException();
+            var sequence = this.ApplyFilters(searchParameters);
+            return this._mapper.Map<IEnumerable<VideoCore>>(await sequence.AsNoTracking().ToListAsync());
         }
 
         public async Task<VideoCore> GetByIdAsync(int id)
@@ -65,6 +61,29 @@ namespace WalekV01.Providers.Sql.Repositories
         public async Task<IEnumerable<VideoCore>> GetAllAsync()
         {
             return this._mapper.Map<IEnumerable<VideoCore>>(await this._context.Videos.AsNoTracking().ToListAsync());
+        }
+        
+        private IQueryable<Video> ApplyFilters(VideoSearchParameters searchParameters)
+        {
+            var sequence = this._context.Videos.AsNoTracking();
+            if (searchParameters.ReleaseDate != 0)
+            {
+                sequence = sequence.Where(v => v.ReleaseDate.Year == searchParameters.ReleaseDate);
+            }
+            if (!string.IsNullOrWhiteSpace(searchParameters.Title))
+            {
+                sequence = sequence.Where(v => v.Title.Contains(searchParameters.Title));
+            }
+            if (!string.IsNullOrWhiteSpace(searchParameters.Producer))
+            {
+                sequence = sequence.Where(v => v.Producer.Contains(searchParameters.Producer));
+            }
+            if (searchParameters.GenderId != 0)
+            {
+                sequence = sequence.Where(v => v.GenderId == searchParameters.GenderId);
+            }
+            
+            return sequence;
         }
     }
 }

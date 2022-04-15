@@ -9,6 +9,5 @@
         public string Producer { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int GenderId { get; set; }
-        public int UserId { get; set; }
     }
 }

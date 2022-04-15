@@ -54,7 +54,7 @@ namespace WalekV01.Presentation.API.Controllers
             {
                 try
                 {
-                    return this.Ok(this._mapper.Map<IEnumerable<UserListViewModel>>(await this._userDomain.GetAllAsync()));
+                    return this.Ok(this._mapper.Map<IEnumerable<UserListViewModel>> (await this._userDomain.GetAllAsync()));
                 }
                 catch (Exception e)
                 {
