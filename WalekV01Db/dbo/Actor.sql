@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Actor]
+(
+	[Id] INT NOT NULL PRIMARY KEY identity(1,1),
+	[Name] NVARCHAR(100) NOT NULL,
+	[BirthDate] DATETIME NOT NULL,
+	[PlaceOfBirth] NVARCHAR(100) NOT NULL,
+	[imageUrl]	NVARCHAR(100) NOT NULL,
+	[Like] int NOT NULL DEFAULT 0
+	
+	
+)

@@ -43,9 +43,9 @@ namespace WalekV01.Providers.Sql.Repositories
             return this._mapper.Map<IEnumerable<CategoriesCore>>(await this._context.Categories.AsNoTracking().ToListAsync());
         }
 
-        public async Task<CategoriesCore> GetByIdAsync(int id)
+        public async Task<CategoriesCore> GetByIdAsync(int categorieId)
         {
-            return this._mapper.Map<CategoriesCore>(await this._context.Categories.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id));
+            return this._mapper.Map<CategoriesCore>(await this._context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == categorieId));
         }
     }
 }

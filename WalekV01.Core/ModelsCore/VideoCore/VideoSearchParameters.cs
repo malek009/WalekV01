@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace WalekV01.Core.ModelsCore.VideoCore
 {
-    public class VideoSearchParameters
+    public class VideoSearchParameters 
     {
-        public string? Title { get; set; }
-        public string? Producer { get; set; }
-        public int ReleaseDate { get; set; }
-        public int GenderId { get; set; }
+        public string Title { get; set; }
+        public string Producer { get; set; }
+        public int? ReleaseDate { get; set; }
+        public int? GenderId { get; set; }
+        public CategoriesCore Categories { get; set; }
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
     }
 }

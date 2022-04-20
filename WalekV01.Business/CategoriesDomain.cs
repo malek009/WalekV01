@@ -7,7 +7,6 @@ namespace WalekV01.Business
     public class CategoriesDomain
     {
         private readonly ICategoriesRepository _categoriesRepository;
-     
 
         public CategoriesDomain(ICategoriesRepository categoriesRepository)
         {
@@ -17,6 +16,7 @@ namespace WalekV01.Business
         
         public async Task<CategoriesCore> CreateAsync(CategoriesCore category)
         {
+            this.Validate(category);
             var categoryDb = await this._categoriesRepository.CreateAsync(category);
             return categoryDb;
         }
@@ -35,6 +35,7 @@ namespace WalekV01.Business
 
         public async Task<CategoriesCore> GetByIdAsync(int id)
         {
+            await this.Exist(id);
             var categoryDb = await this._categoriesRepository.GetByIdAsync(id);
             return categoryDb;
         }
@@ -43,6 +44,18 @@ namespace WalekV01.Business
             if (!await this._categoriesRepository.Exist(id))
             {
                 throw new EntityNotFoundException(typeof(CategoriesCore).Name, id);
+            }
+        }
+        private void Validate(CategoriesCore categorie)
+        {
+            if (categorie.Id == 0)
+            {
+                throw new Exception("L'acteur doit avoir un id");
+            }
+
+            if (string.IsNullOrWhiteSpace(categorie.Name))
+            {
+                throw new Exception("Le nom de la categorie est obligatoire");
             }
         }
     }

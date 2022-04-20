@@ -65,5 +65,7 @@
     <Build Include="dbo\Gender.sql" />
     <Build Include="dbo\Categories.sql" />
     <Build Include="dbo\VideoCategories.sql" />
+    <Build Include="dbo\Actor.sql" />
+    <Build Include="dbo\VideoActors.sql" />
   </ItemGroup>
 </Project>

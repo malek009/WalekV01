@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WalekV01.Business;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Presentation.API.ViewModels.VideoViewModel;
-using WalekV01.Providers.Sql.Models;
 
 namespace WalekV01.Presentation.API.Controllers
 {
@@ -26,7 +23,12 @@ namespace WalekV01.Presentation.API.Controllers
         {
             try
             {
-                var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userDb = this.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userDb == null)
+                {
+                    return BadRequest("User not found");
+                }
+                var userId = userDb.Value;
                 var videoCore = this._mapper.Map<VideoCore>(video);
                 var result = await this._videoDomain.CreateAsync(videoCore, userId);
                 return this.Ok(this._mapper.Map<VideoCreateViewModel>(result));
@@ -36,6 +38,22 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddCategoryToVideo(VideoCategoriesCore videoCategories)
+        {
+            try
+            {
+                var videoCategoriesCore = this._mapper.Map<VideoCategoriesCore>(videoCategories);
+                var result = await this._videoDomain.AddCategoryToVideo(videoCategoriesCore);
+                return this.Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -50,9 +68,22 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            try
+            {
+                return this.Ok(this._mapper.Map<VideoCore>(await this._videoDomain.GetByIdAsync(id)));
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
 
         [HttpGet]
-        public async Task<IActionResult> FindAsync([FromQuery] string? title, [FromQuery] string? Producer, [FromQuery] int dateYear, [FromQuery] int GenderId)
+        public async Task<IActionResult> FindAsync([FromQuery] string? title, [FromQuery] string? Producer, [FromQuery] int? dateYear, [FromQuery] int? GenderId,
+                                                    [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 3)
         {
             try
             {
@@ -61,10 +92,13 @@ namespace WalekV01.Presentation.API.Controllers
                     Title = title,
                     Producer = Producer,
                     ReleaseDate = dateYear,
-                    GenderId = GenderId
+                    GenderId = GenderId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 };
                 var result = await this._videoDomain.FindAsync(searchParameters);
-                return this.Ok(this._mapper.Map<IEnumerable<VideoListViewModel>>(result));
+                return this.Ok(result);
+                //
             }
             catch (Exception e)
             {
@@ -73,11 +107,16 @@ namespace WalekV01.Presentation.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(Video video)
+        public async Task<IActionResult> UpdateAsync(VideoCreateViewModel video)
         {
             try
             {
-                return this.Ok(this._mapper.Map<Video>(await this._videoDomain.UpdateAsync(this._mapper.Map<VideoCore>(video))));
+                var userDb = this.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userDb == null)
+                {
+                    return BadRequest("User not found");
+                }
+                return this.Ok(this._mapper.Map<VideoCreateViewModel>(await this._videoDomain.UpdateAsync(this._mapper.Map<VideoCore>(video),userDb.Value)));
             }
             catch (Exception e)
             {
@@ -98,8 +137,6 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
-
-
-
+        
     }
 }

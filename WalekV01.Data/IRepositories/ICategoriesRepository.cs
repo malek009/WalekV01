@@ -5,7 +5,7 @@ namespace WalekV01.Data.IRepositories
 {
     public interface ICategoriesRepository
     {
-        Task<CategoriesCore> GetByIdAsync(int id);
+        Task<CategoriesCore> GetByIdAsync(int categorieId);
         Task<CategoriesCore> CreateAsync(CategoriesCore category);
         Task DeleteAsync(int categoryId);
         Task<bool> Exist(int categoryId);

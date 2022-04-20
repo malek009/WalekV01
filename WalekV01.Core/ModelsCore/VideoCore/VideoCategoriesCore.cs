@@ -11,5 +11,6 @@ namespace WalekV01.Core.ModelsCore.VideoCore
         public int Id { get; set; }
         public int VideoId { get; set; }
         public int CategoriesId { get; set; }
+        public CategoriesCore Categories { get; set; }
     }
 }

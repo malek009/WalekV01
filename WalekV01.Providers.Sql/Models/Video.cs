@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WalekV01.Providers.Sql.Models
 {
@@ -19,9 +14,10 @@ namespace WalekV01.Providers.Sql.Models
         public int? Episode { get; set; }
         public string Producer { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public string? ImageUrl { get; set; }
         public int UserId { get; set; }
         public int GenderId { get; set; }
-
+        public IEnumerable<VideoCategories> Categories { get; set; }
 
     }
 }

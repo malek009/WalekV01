@@ -12,6 +12,8 @@ namespace WalekV01.Presentation.API.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVideoRepository, VideoRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+            services.AddScoped<IVideoCategoriesRepository, VideoCategoriesRepository>();
+            services.AddScoped<IActorRepository, ActorRepository>();
         }
 
         public static void AddDomains(this IServiceCollection services)
@@ -20,6 +22,8 @@ namespace WalekV01.Presentation.API.Extensions
             services.AddScoped<UserDomain>();
             services.AddScoped<VideoDomain>();
             services.AddScoped<CategoriesDomain>();
+            services.AddScoped<VideoCategoriesDomain>();
+            services.AddScoped<ActorDomain>();
         }
     }
 }

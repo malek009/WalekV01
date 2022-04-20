@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WalekV01.Core.ModelsCore.ActorCore;
 using WalekV01.Core.ModelsCore.UserCore;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Providers.Sql.Models;
@@ -13,6 +14,7 @@ namespace WalekV01.Providers.Sql
             CreateMap<VideoCore, Video>().ReverseMap();
             CreateMap<Categories, CategoriesCore>().ReverseMap();
             CreateMap<VideoCategories, VideoCategoriesCore>().ReverseMap();
+            CreateMap<Actor, ActorCore>().ReverseMap();
         }
 }
 }

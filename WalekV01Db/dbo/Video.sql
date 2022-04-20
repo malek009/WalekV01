@@ -7,6 +7,7 @@
 	[Episode] INT  NULL,
 	[Producer] NVARCHAR(256) NOT NULL,
 	[ReleaseDate] DATETIME NOT NULL,
+	[ImageUrl] nvarchar(256) ,
 	[UserId] INT NOT NULL,
 	[GenderId] int not null,
 	CONSTRAINT [UQ_VIDEO_TITLE_PRODUCER] UNIQUE ([Title],[Producer]),

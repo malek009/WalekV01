@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using WalekV01.Core.ModelsCore;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Data.IRepositories;
 using WalekV01.Providers.Sql.Models;
@@ -35,18 +36,30 @@ namespace WalekV01.Providers.Sql.Repositories
 
         public async Task<bool> Exist(int id)
         {
-            return await this._context.Videos.AsNoTracking().AnyAsync(r => r.Id == id);
+            return await this._context.Videos.AsNoTracking().AnyAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<VideoCore>> FindAsync(VideoSearchParameters searchParameters)
+        public async Task<Pagination<VideoCore>> FindAsync(VideoSearchParameters searchParameters)
         {
+
             var sequence = this.ApplyFilters(searchParameters);
-            return this._mapper.Map<IEnumerable<VideoCore>>(await sequence.AsNoTracking().ToListAsync());
+            var test = sequence.Count();
+            
+            sequence = sequence.Skip((searchParameters.PageNumber - 1) * searchParameters.PageSize).Take(searchParameters.PageSize);
+            var count = sequence.Count();
+
+            return new Pagination<VideoCore>
+            {
+                Items = this._mapper.Map<IEnumerable<VideoCore>>(await sequence.AsNoTracking().ToListAsync()),
+                TotalItem = count,
+                PageNumber = searchParameters.PageNumber,
+                PageSize = searchParameters.PageSize
+            };
         }
 
         public async Task<VideoCore> GetByIdAsync(int id)
         {
-            return this._mapper.Map<VideoCore>(await this._context.Videos.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id));
+            return this._mapper.Map<VideoCore>(await this._context.Videos.Include(v => v.Categories).FirstOrDefaultAsync(v => v.Id == id));
         }
 
         public async Task<VideoCore> UpdateAsync(VideoCore video)
@@ -60,15 +73,18 @@ namespace WalekV01.Providers.Sql.Repositories
 
         public async Task<IEnumerable<VideoCore>> GetAllAsync()
         {
-            return this._mapper.Map<IEnumerable<VideoCore>>(await this._context.Videos.AsNoTracking().ToListAsync());
+            var videoWithCategoriesQuery = this._context.Videos.Include(v => v.Categories).ThenInclude(v => v.Categories);
+            return this._mapper.Map<IEnumerable<VideoCore>>(await videoWithCategoriesQuery.AsNoTracking().ToListAsync());
         }
         
         private IQueryable<Video> ApplyFilters(VideoSearchParameters searchParameters)
         {
             var sequence = this._context.Videos.AsNoTracking();
-            if (searchParameters.ReleaseDate != 0)
+
+
+            if (searchParameters.ReleaseDate.HasValue)
             {
-                sequence = sequence.Where(v => v.ReleaseDate.Year == searchParameters.ReleaseDate);
+                sequence = sequence.Where(v => v.ReleaseDate.Year == searchParameters.ReleaseDate.Value);
             }
             if (!string.IsNullOrWhiteSpace(searchParameters.Title))
             {
@@ -78,11 +94,11 @@ namespace WalekV01.Providers.Sql.Repositories
             {
                 sequence = sequence.Where(v => v.Producer.Contains(searchParameters.Producer));
             }
-            if (searchParameters.GenderId != 0)
+            if (searchParameters.GenderId.HasValue)
             {
-                sequence = sequence.Where(v => v.GenderId == searchParameters.GenderId);
+                sequence = sequence.Where(v => v.GenderId == searchParameters.GenderId.Value);
             }
-            
+
             return sequence;
         }
     }

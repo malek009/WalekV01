@@ -13,6 +13,7 @@ namespace WalekV01.Providers.Sql
         public DbSet<Video> Videos { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<VideoCategories> VideoCategories { get; set; }
+        public DbSet<Actor> Actors { get; set; }
 
 
     }
