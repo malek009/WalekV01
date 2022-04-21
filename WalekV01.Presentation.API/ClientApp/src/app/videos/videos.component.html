@@ -13,7 +13,7 @@
 </div>
 <nav aria-label="...">
     <ul class="pagination pagination-lg">
-        <li class="page-item" *ngFor="let page of pages" [ngClass]="{'active': page==currentPage}" (click)="changePage(page)"><a class="page-link">{{ page+1 }}</a></li>
+        <li class="page-item" *ngFor="let page of pages" [ngClass]="{'active': page==currentPage}" (click)="changePage(page)"><a class="page-link">{{ page }}</a></li>
         <li class="page-item" (click)="nextPage()">
             <a class="page-link" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>

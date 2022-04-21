@@ -16,7 +16,7 @@ namespace WalekV01.Business
             _videoRepository = videoRepository;
             _videoCategoriesRepository = videoCategoriesRepository;
         }
-        
+
         public async Task<VideoCore> CreateAsync(VideoCore video, string id)
         {
             var userIdInt = int.Parse(id);
@@ -43,7 +43,7 @@ namespace WalekV01.Business
             await this.Exist(video.Id);
             return await this._videoRepository.UpdateAsync(video);
         }
-        
+
         public async Task<Pagination<VideoCore>> FindAsync(VideoSearchParameters searchParameters)
         {
             return await this._videoRepository.FindAsync(searchParameters);
@@ -61,9 +61,9 @@ namespace WalekV01.Business
             await this._videoCategoriesRepository.Exist(videoCategories.CategoriesId);
 
             return await this._videoCategoriesRepository.CreateAsync(videoCategories);
-             
+
         }
-        
+
         private async Task Exist(int id)
         {
             if (!await this._videoRepository.Exist(id))

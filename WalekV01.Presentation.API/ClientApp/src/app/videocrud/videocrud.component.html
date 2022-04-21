@@ -1,0 +1,20 @@
+<h1 style="text-align: center;">Gestion des videos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Durée</th>
+            <th scope="col">Producteur</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let v of videos ;let i = index">
+        <tr>
+            <th scope="row">{{i}}</th>
+            <td>{{v.title}}</td>
+            <td>{{v.duration}}</td>
+            <td>{{v.producer}}</td>
+        </tr>
+    </tbody>
+</table>

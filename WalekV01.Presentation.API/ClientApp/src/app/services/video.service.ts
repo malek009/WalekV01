@@ -2,53 +2,49 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Video } from '../models/video';
+import { VideoResult } from '../models/videoResult';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideoService {
-  videoSubject = new Subject<Video[]>();
-  videos : Video[] = [];
+  videos! : Video[] ;
+  prodSubject = new Subject<Video[]>();
+  numberSubject = new Subject<number>();
 
-  numberOfProductByPage : number =  3;
-  //numberOfPages! : number;
+  result : any;
+  numberTotalPage! : number;
 
+  pageNumbre! : number;
+  pageSize!:  number;
   url : string = "https://localhost:44347/api/Video/";
+  urlget : string = 'https://localhost:44347/api/Video/Find?pageNumber='+''+'&pageSize='+'';
   constructor(private http: HttpClient) {
-    this.getVideoFromServer();
   }
 
+  getNumberTotalPage() : number {
 
-  emitVideos(): void{
-    this.videoSubject.next(this.videos);
-
-  }
-
-  getVideoFromServer(): void {
-    this.http.get(this.url+"GetAll").subscribe(
+    this.http.get('https://localhost:44347/api/Video/Find?pageNumber='+''+'&pageSize='+'').subscribe(
       (dataVideos)=>{
-          this.videos = dataVideos as Video[];
-          this.emitVideos();
+          this.result = dataVideos ;
+          this.numberTotalPage =  this.result.totalNumberPage;
+          this.numberSubject.next(this.numberTotalPage);
+          console.log(this.numberTotalPage);
       }
     )
+    return this.numberTotalPage;
   }
 
-  getVideoById(id: number): Video | null{
-    const video = this.videos.find(element => element.id == id);
-    if(video){
-      return video;
-    }else{
-      return null;
-    }
-  }
 
-  getVideoByPage(numberPage: number): Video[] | null{
-    const numberOfPage = this.videos.length/this.numberOfProductByPage;
-    if( numberPage >0 || numberPage < numberOfPage ){
-      const videoResult = this.videos.slice(numberPage*this.numberOfProductByPage, (numberPage+1)*this.numberOfProductByPage);
-      return videoResult;
-    }
-    return null;
+  getVideoByPage(numberPage: number, pageSize: number) : Video[] {
+    this.http.get('https://localhost:44347/api/Video/Find?pageNumber='+numberPage+'&pageSize='+pageSize).subscribe(
+      (dataVideos)=>{
+          this.result = dataVideos ;
+          this.videos = this.result.items;
+          this.numberTotalPage =  this.result.totalNumberPage;
+          this.prodSubject.next(this.videos);
+      }
+    )
+    return this.videos;
   }
-
-  }
+}

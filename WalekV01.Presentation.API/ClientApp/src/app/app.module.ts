@@ -10,6 +10,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { VideosComponent } from './videos/videos.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { SinglevideoComponent } from './singlevideo/singlevideo.component';
+import { VideocrudComponent } from './videocrud/videocrud.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SinglevideoComponent } from './singlevideo/singlevideo.component';
     FooterComponent,
     NotFoundComponent,
     VideosComponent,
-    SinglevideoComponent
+    SinglevideoComponent,
+    VideocrudComponent
   ],
   imports: [
     BrowserModule,

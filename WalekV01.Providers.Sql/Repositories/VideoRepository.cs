@@ -43,17 +43,16 @@ namespace WalekV01.Providers.Sql.Repositories
         {
 
             var sequence = this.ApplyFilters(searchParameters);
-            var test = sequence.Count();
-            
             sequence = sequence.Skip((searchParameters.PageNumber - 1) * searchParameters.PageSize).Take(searchParameters.PageSize);
-            var count = sequence.Count();
+            var count = this.Count();
 
             return new Pagination<VideoCore>
             {
                 Items = this._mapper.Map<IEnumerable<VideoCore>>(await sequence.AsNoTracking().ToListAsync()),
                 TotalItem = count,
                 PageNumber = searchParameters.PageNumber,
-                PageSize = searchParameters.PageSize
+                PageSize = searchParameters.PageSize,
+                TotalNumberPage = (int)Math.Ceiling((double)count / searchParameters.PageSize)
             };
         }
 
@@ -76,7 +75,10 @@ namespace WalekV01.Providers.Sql.Repositories
             var videoWithCategoriesQuery = this._context.Videos.Include(v => v.Categories).ThenInclude(v => v.Categories);
             return this._mapper.Map<IEnumerable<VideoCore>>(await videoWithCategoriesQuery.AsNoTracking().ToListAsync());
         }
-        
+        private int Count () {
+            return this._context.Videos.Count();
+        }
+
         private IQueryable<Video> ApplyFilters(VideoSearchParameters searchParameters)
         {
             var sequence = this._context.Videos.AsNoTracking();

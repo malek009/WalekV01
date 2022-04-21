@@ -21,7 +21,7 @@ export class SinglevideoComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0,0);
     const id = +this.route.snapshot.params["id"];
-    this.videoSub = this.videoService.videoSubject.subscribe(
+    /*this.videoSub = this.videoService.videoSubject.subscribe(
       (data: Video[])=>{
         var dataVideo = this.videoService.getVideoById(id);
         if(dataVideo) {
@@ -30,7 +30,7 @@ export class SinglevideoComponent implements OnInit {
 
       }
     );
-    this.videoService.emitVideos();
+    this.videoService.emitVideos();*/
    // this.videoService.getById(id).subscribe(  video => {  this.video = video;
    //   console.log(this.video); });
   }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WalekV01.Business;
+using WalekV01.Core.ModelsCore;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Presentation.API.ViewModels.VideoViewModel;
 
@@ -98,7 +99,6 @@ namespace WalekV01.Presentation.API.Controllers
                 };
                 var result = await this._videoDomain.FindAsync(searchParameters);
                 return this.Ok(result);
-                //
             }
             catch (Exception e)
             {
