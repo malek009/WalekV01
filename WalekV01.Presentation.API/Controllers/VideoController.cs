@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WalekV01.Business;
@@ -41,12 +42,12 @@ namespace WalekV01.Presentation.API.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> AddCategoryToVideo(VideoCategoriesCore videoCategories)
+        public async Task<IActionResult> AddCategoryToVideoAsync(AddCategoriesTOVideoViewModel videoCategories)
         {
             try
             {
                 var videoCategoriesCore = this._mapper.Map<VideoCategoriesCore>(videoCategories);
-                var result = await this._videoDomain.AddCategoryToVideo(videoCategoriesCore);
+                var result = await this._videoDomain.AddCategoryToVideoAsync(videoCategoriesCore);
                 return this.Ok(result);
             }
             catch (Exception e)
@@ -54,7 +55,7 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
-
+        
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -74,7 +75,7 @@ namespace WalekV01.Presentation.API.Controllers
         {
             try
             {
-                return this.Ok(this._mapper.Map<VideoCore>(await this._videoDomain.GetByIdAsync(id)));
+                return this.Ok(this._mapper.Map<VideoListViewModel>(await this._videoDomain.GetByIdAsync(id)));
             }
             catch (Exception e)
             {

@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { Video } from '../models/video';
 import { VideoService } from '../services/video.service';
 
+
+
 @Component({
   selector: 'app-videocrud',
   templateUrl: './videocrud.component.html',
@@ -15,12 +17,25 @@ export class VideocrudComponent implements OnInit {
   constructor(private videoService : VideoService) { }
 
   ngOnInit(): void {
-    this.videoSub = this.videoService.prodSubject.subscribe(
+    this.loadData();
+  }
+  onEdit(id? : number) {
+
+  }
+  onDelete(id : number | undefined) {
+    if(id) {
+      this.videoService.delete(id);
+      this.videoService.getVideoByPage(1,200);
+    }
+  }
+  loadData() {
+    this.videoSub = this.videoService.videosSubject.subscribe(
       (videos: Video[]) => {
         this.videos = videos;
+        console.log(this.videos);
+
       }
     );
-    this.videoService.getVideoByPage(1,9);
+    this.videoService.getAllVideo();
   }
-
 }

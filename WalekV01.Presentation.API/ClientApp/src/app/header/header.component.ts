@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrentUserService } from '../services/current-user.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  isConnecrted : boolean = false;
+  constructor(private auth: AuthService,private user :CurrentUserService) {
+    if(this.user.load()){
+      this.isConnecrted = true;
+    }
+   }
 
   ngOnInit(): void {
+
+  }
+  logout() {
+
   }
 
 }

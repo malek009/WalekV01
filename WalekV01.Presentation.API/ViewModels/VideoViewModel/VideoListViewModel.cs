@@ -11,7 +11,7 @@ namespace WalekV01.Presentation.API.ViewModels.VideoViewModel
         public int? Episode { get; set; }
         public string Producer { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
         public int GenderId { get; set; }
         public IEnumerable<VideoCategoriesCore> Categories { get; set; }
 

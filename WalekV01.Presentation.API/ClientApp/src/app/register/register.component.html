@@ -1,0 +1,42 @@
+<div class="container" style="margin-top: 100px;">
+    <form class="row g-3" [formGroup]="RegisterForm" (ngSubmit)="onSubmit()">
+        <div class="col-md-6">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': submitted && f['email'].errors }" />
+            <div *ngIf="submitted && f['email'].errors?.['required']" class="invalid-feedback">
+                <div *ngIf="f['email'].errors?.['required']">Email is required</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': submitted && f['password'].errors }" />
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors?.['required']">Password is required</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="age" formControlName="age" class="form-control" [ngClass]="{'is-invalid': submitted && f['age'].errors }" />
+            <div *ngIf="submitted && f['age'].errors" class="invalid-feedback">
+                <div *ngIf="f['age'].errors?.['required']">l'age est requis</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="zipcode" class="form-label">Code Postal</label>
+            <input type="zipcode" formControlName="zipcode" class="form-control" [ngClass]="{'is-invalid': submitted && f['zipcode'].errors }" />
+            <div *ngIf="submitted && f['zipcode'].errors" class="invalid-feedback">
+                <div *ngIf="f['zipcode'].errors?.['required']">le code postal est requis</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="inputZip" class="form-label">Ville</label>
+            <input type="country" formControlName="country" class="form-control" [ngClass]="{'is-invalid': submitted && f['country'].errors }" />
+            <div *ngIf="submitted && f['country'].errors" class="invalid-feedback">
+                <div *ngIf="f['country'].errors?.['required']">le code postal est requis</div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
+</div>

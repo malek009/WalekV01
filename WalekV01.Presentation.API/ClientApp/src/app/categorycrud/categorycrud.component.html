@@ -1,0 +1,35 @@
+<h1 style="text-align: center;">Gestion des videos</h1>
+<button class="btn btn-info" routerLink="/home"> Exit</button>
+<button class="btn btn-lg btn-outline-primary" (click)="showAddForm()">Ajouter Categories</button>
+<div *ngIf="formAdd">
+    <form (ngSubmit)="addCategories()" [formGroup]="ngForm">
+        <div class="col-md-6">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" formControlName="name" class="form-control" [ngClass]="{'is-invalid': submitted && f['name'].errors }">
+            <div *ngIf="submitted && f['name'].errors?.['required']" class="invalid-feedback">
+                <div *ngIf="f['name'].errors?.['required']">le Nom est requis</div>
+            </div>
+        </div>
+        <div class="col-12" class="modal-footer">
+            <button class="btn btn-outline-dark">Save</button>
+        </div>
+    </form>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let c of categories ;let i = index">
+        <tr>
+            <th scope="row">{{i+1}}</th>
+            <td>{{c.name}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="onEdit(c.id)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(c.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

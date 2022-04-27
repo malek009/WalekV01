@@ -58,7 +58,7 @@ namespace WalekV01.Providers.Sql.Repositories
 
         public async Task<VideoCore> GetByIdAsync(int id)
         {
-            return this._mapper.Map<VideoCore>(await this._context.Videos.Include(v => v.Categories).FirstOrDefaultAsync(v => v.Id == id));
+            return this._mapper.Map<VideoCore>(await this._context.Videos.Include(v => v.Categories).ThenInclude(v => v.Categories).FirstOrDefaultAsync(v => v.Id == id));
         }
 
         public async Task<VideoCore> UpdateAsync(VideoCore video)

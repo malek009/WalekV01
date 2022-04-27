@@ -10,43 +10,47 @@ import { VideoService } from '../services/video.service';
 })
 export class VideosComponent implements OnInit {
 
+
   videos!: Video[] ;
   videoSub!: Subscription;
+  numberTotalItems! : number;
   numberTotalPage!: number;
   numberSubject!: Subscription;
   currentPage = 1;
-
-  pages : number []= [1,2] ;
+  pages : number [] = [];
 
 
   constructor(private videoService : VideoService) { }
 
   ngOnInit(): void {
 
-   /* let a = this.videoService.getNumberTotalPage();
-    console.log(a);
-
-    this.pages = Array(a).fill(1).map((x,i)=>i+1);
-    console.log(this.pages);*/
-
-
-    this.videoSub = this.videoService.prodSubject.subscribe(
+    this.videoService.getVideoByPage(this.currentPage,5);
+    this.videoSub = this.videoService.videosSubject.subscribe(
       (videos: Video[]) => {
         this.videos = videos;
       }
     );
-    this.videoService.getVideoByPage(this.currentPage,3);
+
+    this.videoService.getNumberTotoalItems();
+    this.numberSubject = this.videoService.numberSubject.subscribe(
+      (number: number) => {
+        this.numberTotalItems = number;
+        this.numberTotalPage = Math.ceil(this.numberTotalItems/5);
+        for (let i = 0; i < this.numberTotalPage; i++) {
+          this.pages.push(i+1);
+        }
+      });
   }
 
   changePage(numberPage: number): void{
     this.currentPage = numberPage;
-    const video = this.videoService.getVideoByPage(this.currentPage,3);
-       this.videos = video;
+    const video = this.videoService.getVideoByPage(this.currentPage,5);
+    this.videos = video;
   }
 
   nextPage(): void{
     const newCurrentPage = this.currentPage +1;
-    const video = this.videoService.getVideoByPage(newCurrentPage,3);
+    const video = this.videoService.getVideoByPage(newCurrentPage,5);
     if (video) {
       if(video.length){
         this.videos = video;

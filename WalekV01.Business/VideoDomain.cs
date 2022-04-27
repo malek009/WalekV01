@@ -55,7 +55,7 @@ namespace WalekV01.Business
             await this._videoRepository.DeleteAsync(videoId);
         }
 
-        public async Task<VideoCategoriesCore> AddCategoryToVideo(VideoCategoriesCore videoCategories)
+        public async Task<VideoCategoriesCore> AddCategoryToVideoAsync(VideoCategoriesCore videoCategories)
         {
             await this.Exist(videoCategories.VideoId);
             await this._videoCategoriesRepository.Exist(videoCategories.CategoriesId);

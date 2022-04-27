@@ -1,4 +1,6 @@
 <h1 style="text-align: center;">Gestion des videos</h1>
+<button class="btn btn-info" routerLink="/home"> Exit</button>
+<app-modal-add-video> </app-modal-add-video>
 
 <table class="table">
     <thead>
@@ -7,6 +9,8 @@
             <th scope="col">Titre</th>
             <th scope="col">Durée</th>
             <th scope="col">Producteur</th>
+            <th scope="col">Categories</th>
+            <th scope="col">gestion</th>
         </tr>
     </thead>
     <tbody *ngFor="let v of videos ;let i = index">
@@ -15,6 +19,18 @@
             <td>{{v.title}}</td>
             <td>{{v.duration}}</td>
             <td>{{v.producer}}</td>
+            <td>
+                <app-modal-show-categories [id]="v.id"></app-modal-show-categories>
+            </td>
+            <td>
+                <select style="width: 100px;">
+                  <option  *ngFor="let c of v.categories" value=c.categories.id>{{c.categories.name}} </option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary" (click)="onEdit(v.id)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(v.id)">Delete</button>
+            </td>
         </tr>
     </tbody>
 </table>

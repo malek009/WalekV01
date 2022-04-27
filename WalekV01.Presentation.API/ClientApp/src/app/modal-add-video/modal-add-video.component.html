@@ -1,0 +1,57 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row g-3" [formGroup]="addVideoForm" (ngSubmit)="onSubmit()">
+            <div class="col-md-6">
+                <label for="title" class="form-label">Titre</label>
+                <input type="text" formControlName="title" class="form-control" [ngClass]="{'is-invalid': submitted && f['title'].errors }" />
+                <div *ngIf="submitted && f['title'].errors?.['required']" class="invalid-feedback">
+                    <div *ngIf="f['title'].errors?.['required']">le titre est requis</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="description" class="form-label">Description</label>
+                <input type="description" formControlName="description" class="form-control" [ngClass]="{'is-invalid': submitted && f['description'].errors }" />
+                <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                    <div *ngIf="f['description'].errors?.['required']">description est requise</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="duration" class="form-label">Durée</label>
+                <input type="text" formControlName="duration" class="form-control" [ngClass]="{'is-invalid': submitted && f['duration'].errors }" />
+                <div *ngIf="submitted && f['duration'].errors" class="invalid-feedback">
+                    <div *ngIf="f['duration'].errors?.['required']">la durée est requise</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="producer" class="form-label">Producteur</label>
+                <input type="text" formControlName="producer" class="form-control" [ngClass]="{'is-invalid': submitted && f['producer'].errors }" />
+                <div *ngIf="submitted && f['producer'].errors" class="invalid-feedback">
+                    <div *ngIf="f['producer'].errors?.['required']">le producteur est requis</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="releseDate" class="form-label">Date de sortie</label>
+                <input type="date" formControlName="releaseDate" class="form-control" [ngClass]="{'is-invalid': submitted && f['releaseDate'].errors }" />
+                <div *ngIf="submitted && f['releaseDate'].errors" class="invalid-feedback">
+                    <div *ngIf="f['releaseDate'].errors?.['required']">la date de sortie est requise</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="imageUrl" class="form-label">Url de l'image</label>
+                <input type="text" formControlName="imageUrl" class="form-control" [ngClass]="{'is-invalid': submitted && f['imageUrl'].errors }" />
+                <div *ngIf="submitted && f['imageUrl'].errors" class="invalid-feedback">
+                    <div *ngIf="f['imageUrl'].errors?.['required']">l'Url de l'image est requis</div>
+                </div>
+            </div>
+            <div class="col-12" class="modal-footer">
+                <button class="btn btn-outline-dark">Save</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<a class="btn btn-lg btn-outline-primary" (click)="open(content)">Ajouter Video</a>

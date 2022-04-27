@@ -1,7 +1,9 @@
+import { Video } from "./video";
+
 export interface Result {
-  status: number;
-  message: string;
-  result: any;
-  time: string;
-  args : any;
+  pageSize : number,
+  pageNumber : number,
+  totalItem : number,
+  totalNumberPage : number,
+  items : Video[]
 }

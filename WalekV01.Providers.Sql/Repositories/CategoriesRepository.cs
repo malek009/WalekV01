@@ -32,6 +32,7 @@ namespace WalekV01.Providers.Sql.Repositories
             this._context.Entry(categoryDb).State = EntityState.Deleted;
             await this._context.SaveChangesAsync();
         }
+        
 
         public async Task<bool> Exist(int categoryId)
         {

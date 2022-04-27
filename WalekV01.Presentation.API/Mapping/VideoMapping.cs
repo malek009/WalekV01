@@ -11,6 +11,7 @@ namespace WalekV01.Presentation.API.Mapping
             CreateMap<VideoCore, VideoCreateViewModel>().ReverseMap();
             CreateMap<VideoCore, VideoListViewModel>().ReverseMap();
             CreateMap<CategoriesCore, CategoriesCreateViewModel>().ReverseMap();
+            CreateMap<VideoCategoriesCore, AddCategoriesTOVideoViewModel>().ReverseMap();
         }
     }
 }

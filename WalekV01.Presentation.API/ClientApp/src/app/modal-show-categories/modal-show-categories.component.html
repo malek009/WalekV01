@@ -1,0 +1,27 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Appuiez sur la categories pour la rajouter!</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+
+
+    <ng-template ngFor let-item [ngForOf]="categories" let-i="index">
+        <div>
+            <button (click)="addCategories(item.name)" (click)="addCategoriesToVideo(item.id)" style="width: 150px;" class="btn btn-dark">{{item.name}}</button>
+        </div>
+
+    </ng-template>
+    <div *ngIf="showCategorieAdd">
+        Categories rajouter :
+    </div>
+    <div *ngFor="let c of listeCategories">
+        <p>{{c}}</p>
+    </div>
+
+
+    <div class="col-12" class="modal-footer">
+        <button class="btn-close" aria-label="Close" (click)="close()" (click)="d('Cross click')" class="btn btn-outline-dark">Save</button>
+    </div>
+</ng-template>
+
+<button class="btn btn-outline-primary" (click)="open(content)">Categories</button>

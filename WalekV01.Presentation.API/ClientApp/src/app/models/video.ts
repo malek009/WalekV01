@@ -1,5 +1,7 @@
+import { Categories } from './categories';
+import { VideoCategories } from './video-categories';
 export interface Video {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     duration: number;
@@ -7,5 +9,6 @@ export interface Video {
     producer : string;
     releaseDate : Date;
     imageUrl: string;
-    categories : any [];
+    categories: VideoCategories[];
+    genderId? : number;
 }

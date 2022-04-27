@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Video } from '../models/video';
+import { VideoService } from '../services/video.service';
 
 @Component({
   selector: 'app-home',

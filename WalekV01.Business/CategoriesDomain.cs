@@ -48,11 +48,6 @@ namespace WalekV01.Business
         }
         private void Validate(CategoriesCore categorie)
         {
-            if (categorie.Id == 0)
-            {
-                throw new Exception("L'acteur doit avoir un id");
-            }
-
             if (string.IsNullOrWhiteSpace(categorie.Name))
             {
                 throw new Exception("Le nom de la categorie est obligatoire");
