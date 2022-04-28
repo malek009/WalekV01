@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="container">
+<div class="container" *ngIf="video">
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -11,6 +11,7 @@
                     <h5 class="card-title">Titre : {{video.title}}</h5>
                     <h5 class="card-title">Durée : {{video.duration}} Min</h5>
                     <p class="card-text">Description : {{video.description}}</p>
+                    <p class="card-text" *ngIf="isSerie">Episode : {{video.episode}}</p>
                     <p class="card-text">Date de sortie : {{video.releaseDate | date}}</p>
                     Categories :
                     <p class="card-text" *ngFor="let c of video.categories">

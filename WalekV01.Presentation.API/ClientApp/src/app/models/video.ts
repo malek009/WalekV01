@@ -11,4 +11,5 @@ export interface Video {
     imageUrl: string;
     categories: VideoCategories[];
     genderId? : number;
+    userId? : number;
 }

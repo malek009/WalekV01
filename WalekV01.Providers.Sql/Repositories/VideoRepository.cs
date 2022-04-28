@@ -61,6 +61,7 @@ namespace WalekV01.Providers.Sql.Repositories
             return this._mapper.Map<VideoCore>(await this._context.Videos.Include(v => v.Categories).ThenInclude(v => v.Categories).FirstOrDefaultAsync(v => v.Id == id));
         }
 
+
         public async Task<VideoCore> UpdateAsync(VideoCore video)
         {
             var videoDb = this._mapper.Map<Video>(video);

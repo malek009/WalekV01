@@ -22,6 +22,7 @@ import { CategorycrudComponent } from './categorycrud/categorycrud.component';
 import { ModalShowCategoriesComponent } from './modal-show-categories/modal-show-categories.component';
 import {MatSelectModule} from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalEditVideoComponent } from './modal-edit-video/modal-edit-video.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ModalAddVideoComponent,
     CategorycrudComponent,
     ModalShowCategoriesComponent,
+    ModalEditVideoComponent,
 
 
   ],

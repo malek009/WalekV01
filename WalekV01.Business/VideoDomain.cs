@@ -63,6 +63,18 @@ namespace WalekV01.Business
             return await this._videoCategoriesRepository.CreateAsync(videoCategories);
 
         }
+        public async Task DeleteCategoryFromVideoAsync(int videoCategoriesId)
+        {
+            try
+            {
+                await this._videoCategoriesRepository.DeleteAsync(videoCategoriesId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
 
         private async Task Exist(int id)
         {

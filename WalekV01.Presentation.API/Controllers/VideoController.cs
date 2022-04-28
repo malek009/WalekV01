@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WalekV01.Business;
-using WalekV01.Core.ModelsCore;
 using WalekV01.Core.ModelsCore.VideoCore;
 using WalekV01.Presentation.API.ViewModels.VideoViewModel;
 
@@ -14,10 +12,12 @@ namespace WalekV01.Presentation.API.Controllers
     public class VideoController : ControllerBase
     {
         private readonly VideoDomain _videoDomain;
+        private readonly VideoCategoriesDomain _videoCategoriesDomain;
         private readonly IMapper _mapper;
-        public VideoController(VideoDomain videoDomain, IMapper mapper)
+        public VideoController(VideoDomain videoDomain, IMapper mapper, VideoCategoriesDomain videoCategoriesDomain)
         {
             this._videoDomain = videoDomain;
+            this._videoCategoriesDomain = videoCategoriesDomain;
             this._mapper = mapper;
         }
         [HttpPost]
@@ -55,7 +55,20 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
-        
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCategoryFromVideoAsync(int videoCategoriesId)
+        {
+            try
+            {
+                await this._videoDomain.DeleteCategoryFromVideoAsync(videoCategoriesId);
+                return this.Ok();
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -76,6 +89,18 @@ namespace WalekV01.Presentation.API.Controllers
             try
             {
                 return this.Ok(this._mapper.Map<VideoListViewModel>(await this._videoDomain.GetByIdAsync(id)));
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetCategoriesByVideoIdAsync(int id)
+        {
+            try
+            {
+                return this.Ok(this._mapper.Map<IEnumerable<CategoriesCreateViewModel>>(await this._videoDomain.GetByIdAsync(id)));
             }
             catch (Exception e)
             {
@@ -125,12 +150,16 @@ namespace WalekV01.Presentation.API.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(int videoId)
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(VideoCore video)
         {
             try
             {
-                await this._videoDomain.DeleteAsync(videoId);
+                foreach (var videoCategory in video.Categories)
+                {
+                    await this._videoCategoriesDomain.DeleteAsync(videoCategory.Id);
+                }
+                await this._videoDomain.DeleteAsync(video.Id);
                 return this.Ok();
             }
             catch (Exception e)

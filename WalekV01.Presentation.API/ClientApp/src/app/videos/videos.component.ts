@@ -31,6 +31,9 @@ export class VideosComponent implements OnInit {
       }
     );
 
+
+
+
     this.videoService.getNumberTotoalItems();
     this.numberSubject = this.videoService.numberSubject.subscribe(
       (number: number) => {

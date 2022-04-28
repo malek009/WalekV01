@@ -1,17 +1,10 @@
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()" (click)="d('Cross click')"></button>
     </div>
     <div class="modal-body">
-
-
-        <form class="row g-3" [formGroup]="addVideoForm" (ngSubmit)="onSubmit()">
-            <select formControlName="genderId">
-            <option   value="1">film </option>
-            <option   value="2">serie </option>
-            <option   value="3">Documentaire </option>
-          </select>
+        <form class="row g-3" [formGroup]="editVideoForm" (ngSubmit)="onSubmit()">
             <div class="col-md-6">
                 <label for="title" class="form-label">Titre</label>
                 <input type="text" formControlName="title" class="form-control" [ngClass]="{'is-invalid': submitted && f['title'].errors }" />
@@ -40,9 +33,12 @@
                     <div *ngIf="f['producer'].errors?.['required']">le producteur est requis</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <label for="episode" class="form-label">Episode?</label>
-                <input type="text" formControlName="episode" class="form-control" />
+            <div class="col-md-3" *ngIf="isSeries">
+                <label for="episode" class="form-label">Episode</label>
+                <input type="text" formControlName="episode" class="form-control" [ngClass]="{'is-invalid': submitted && f['episode'].errors }" />
+                <div *ngIf="submitted && f['episode'].errors" class="invalid-feedback">
+                    <div *ngIf="f['episode'].errors?.['required']">le nombre d'episode est requis</div>
+                </div>
             </div>
             <div class="col-md-3">
                 <label for="releseDate" class="form-label">Date de sortie</label>
@@ -65,4 +61,4 @@
     </div>
 </ng-template>
 
-<a class="btn btn-lg btn-outline-primary" (click)="open(content)">Ajouter Video</a>
+<a class="btn btn-lg btn-outline-primary" (click)="open(content)">Edit Video</a>

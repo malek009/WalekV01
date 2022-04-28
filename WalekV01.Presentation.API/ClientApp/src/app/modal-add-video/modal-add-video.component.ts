@@ -26,14 +26,21 @@ export class ModalAddVideoComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
     this.addVideoForm = this.formBuilder.group({
       title : ['',Validators.required],
       description : ['',Validators.required],
       duration : ['',Validators.required],
       producer : ['',Validators.required],
+      episode : [''],
       releaseDate : ['',Validators.required],
-      imageUrl : ['',Validators.required]
+      imageUrl : ['',Validators.required],
+      genderId : ['',Validators.required],
     })
+
+  }
+  close() {
+    this.modalService.dismissAll();
   }
   open(content : any) {
     this.modalService.open(content);
@@ -46,15 +53,19 @@ export class ModalAddVideoComponent implements OnInit {
     if(this.addVideoForm.invalid) {
       return;
     }
+    if(this.f['episode'].value =="" ) {
+      this.f['episode'].setValue(null);
+    }
     this.video = {
       title : this.f['title'].value,
       description : this.f['description'].value,
       duration : this.f['duration'].value,
       producer : this.f['producer'].value,
+      episode : this.f['episode'].value,
       releaseDate : this.f['releaseDate'].value,
       imageUrl : "../assets/img/"+ this.f['imageUrl'].value,
       categories : [] = [],
-      genderId : 1
+      genderId : this.f['genderId'].value,
     }
     console.log(this.video);
     this.serviceVideo.add(this.video);

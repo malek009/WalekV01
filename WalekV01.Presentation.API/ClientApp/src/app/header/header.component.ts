@@ -10,14 +10,14 @@ import { AuthService } from '../services/auth.service';
 export class HeaderComponent implements OnInit {
 
   isConnecrted : boolean = false;
-  constructor(private auth: AuthService,private user :CurrentUserService) {
+  constructor(private auth: AuthService,
+              private user :CurrentUserService) {
     if(this.user.load()){
       this.isConnecrted = true;
     }
    }
 
   ngOnInit(): void {
-
   }
   logout() {
 

@@ -28,8 +28,8 @@
                 </select>
             </td>
             <td>
-                <button class="btn btn-primary" (click)="onEdit(v.id)">Edit</button>
-                <button class="btn btn-danger" (click)="onDelete(v.id)">Delete</button>
+                <app-modal-edit-video [id]="v.id"></app-modal-edit-video>
+                <button class="btn btn-danger" (click)="onDelete(v)">Delete</button>
             </td>
         </tr>
     </tbody>

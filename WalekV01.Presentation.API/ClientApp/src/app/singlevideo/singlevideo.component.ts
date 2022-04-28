@@ -14,6 +14,7 @@ export class SinglevideoComponent implements OnInit {
 
   video! : Video;
   videoSub! : Subscription;
+  isSerie : boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,12 +24,18 @@ export class SinglevideoComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0,0);
     const id = +this.route.snapshot.params["id"];
+    this.isSerie = false;
 
-    this.videoService.getVideoById(id);
+    this.video = this.videoService.getVideoById(id);
+
+    console.log(this.video);
+
     this.videoSub = this.videoService.videoSubject.subscribe(
       (video: Video) => {
       this.video = video;
-
+      if(this.video.episode != null) {
+        this.isSerie = true;
+      }
       console.log(this.video);
       }
     );

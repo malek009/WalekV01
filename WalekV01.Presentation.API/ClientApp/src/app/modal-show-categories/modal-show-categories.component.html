@@ -4,21 +4,36 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
     </div>
 
+    <div class="container">
+        <div class="right">
+            <ng-template ngFor let-item [ngForOf]="categories" let-i="index">
+                <div>
+                    <button (click)="addCategories(item.name, item.id)" style="width: 150px;" class="btn btn-outline-success">{{item.name}}</button>
+                </div>
 
-    <ng-template ngFor let-item [ngForOf]="categories" let-i="index">
-        <div>
-            <button (click)="addCategories(item.name)" (click)="addCategoriesToVideo(item.id)" style="width: 150px;" class="btn btn-dark">{{item.name}}</button>
+            </ng-template>
+            <div *ngIf="showCategorieAdd">
+                Categories rajouter :
+            </div>
+            <div *ngFor="let c of listeCategoriesToAdd">
+                <p>{{c}}</p>
+            </div>
         </div>
+        <div class="left">
+            <ng-template ngFor let-item [ngForOf]="VideoCategories" let-i="index">
+                <div>
+                    <button (click)="removeCategories(item.categories.name,item.id)" style="width: 150px;" class="btn btn-danger">{{item.categories.name}}</button>
+                </div>
+            </ng-template>
+            <div *ngIf="showCategorieRemove">
+                Categories à suprimmer :
+            </div>
+            <div *ngFor="let c of listeCategoriesToRemove">
+                <p>{{c}}</p>
+            </div>
 
-    </ng-template>
-    <div *ngIf="showCategorieAdd">
-        Categories rajouter :
+        </div>
     </div>
-    <div *ngFor="let c of listeCategories">
-        <p>{{c}}</p>
-    </div>
-
-
     <div class="col-12" class="modal-footer">
         <button class="btn-close" aria-label="Close" (click)="close()" (click)="d('Cross click')" class="btn btn-outline-dark">Save</button>
     </div>

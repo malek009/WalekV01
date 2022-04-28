@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ConnectedUser } from '../models/connected-user';
 import { Credentials } from '../models/credentials';
-import { Router } from '@angular/router';
-import { UserService } from './user.service';
 import { CurrentUserService } from './current-user.service';
 
 @Injectable({
@@ -14,7 +12,8 @@ export class AuthService {
 
   private currebtUserSubject! : BehaviorSubject<ConnectedUser>;
   url : string = "https://localhost:44347/api/Auth";
-  constructor(@Inject(HttpClient) private http : HttpClient,private currentUser : CurrentUserService) {
+  constructor(private http : HttpClient,
+    private currentUser : CurrentUserService) {
     this.currebtUserSubject = new BehaviorSubject<ConnectedUser>(
     JSON.parse(localStorage.getItem('currentUser')?? '{}'));
    }

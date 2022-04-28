@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Video } from '../models/video';
-import { VideoResult } from '../models/videoResult';
 import { ConnectedUser } from '../models/connected-user';
 import { Result } from '../models/result';
 import { VideoCategories } from '../models/video-categories';
@@ -17,6 +16,9 @@ export class VideoService {
   videosSubject = new Subject<Video[]>();
   videoSubject = new Subject<Video>();
   numberSubject = new Subject<number>();
+  videoCategories! : VideoCategories[] ;
+  videoCategoriesSubject = new Subject<VideoCategories[]>();
+
   totalItem! : number;
   result !: Video;
 
@@ -32,10 +34,15 @@ export class VideoService {
     this.user = JSON.parse(localStorage.getItem('currentUser')?? '{}');
   }
 
-  delete (id : number) {
-   return this.http.delete(this.url+"Delete?videoId="+id).subscribe(data => {
+  delete (video : Video) {
+    this.http.post(this.url+"Delete",video).subscribe(data => {
    });
   }
+  deleteCategoriesFromVideo (id : number) {
+    return this.http.delete(this.url+"DeleteCategoryFromVideo?videoCategoriesId="+id).subscribe(data => {
+      console.log(data);
+    });
+   }
 
   add(video : Video)  {
     console.log(this.user);
@@ -46,6 +53,26 @@ export class VideoService {
         console.log("data " + data);
       });
     }
+    update(video : Video) {
+      this.http.put<Video>(this.url+"Update",video,{headers: new HttpHeaders({
+        'Content-type':'application/json',
+        'Authorization' : `Bearer ${this.user?.token}`
+      })}).subscribe(data => {
+        console.log(data);
+      });
+
+    }
+    getCategoriesByVideoId(id : number) : VideoCategories[] {
+    this.http.get<VideoCategories[]>(this.url+"GetCategoriesByVideoId?id="+id).subscribe(
+      (result : VideoCategories[])=>{
+        this.videoCategories = result;
+        this.videoCategoriesSubject.next(this.videoCategories);
+        console.log(this.videoCategories);
+      }
+    );
+    return this.videoCategories;
+  }
+
     addCategoriesToVideo (categoriesId : number, videoId : number) {
       const videoCategories = {
         videoId: videoId,
@@ -59,6 +86,8 @@ export class VideoService {
 
         });
     }
+
+
 
 
   getVideoById(id : number) : Video {

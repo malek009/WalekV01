@@ -19,12 +19,9 @@ export class VideocrudComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
-  onEdit(id? : number) {
-
-  }
-  onDelete(id : number | undefined) {
-    if(id) {
-      this.videoService.delete(id);
+  onDelete(video : Video) {
+    if(video) {
+      this.videoService.delete(video);
       this.videoService.getVideoByPage(1,200);
     }
   }
