@@ -25,6 +25,26 @@ export class CategoriesService {
     );
     return this.categories;
   }
+  getCategoriesById(id : number) : Categories {
+    this.http.get<Categories>(this.url+"GetById/"+id).subscribe(
+      (result : Categories)=>{
+        this.category = result ;
+        this.categorySubject.next(this.category);
+      }
+    );
+    return this.category;
+  }
+  delete(id : number) : Categories {
+    this.http.delete<Categories>(this.url+"Delete?id="+id).subscribe(
+      (result : Categories)=>{
+        this.category = result ;
+        this.categorySubject.next(this.category);
+      }
+    );
+    return this.category;
+  }
+
+
   add(category : Categories) : Categories {
     this.http.post<Categories>(this.url+"Create",category).subscribe(
       (result : Categories)=>{

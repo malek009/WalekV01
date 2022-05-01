@@ -150,16 +150,21 @@ namespace WalekV01.Presentation.API.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteAsync(VideoCore video)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(int videoId)
         {
             try
             {
-                foreach (var videoCategory in video.Categories)
+                var videoTodelete = await this._videoDomain.GetByIdAsync(videoId);
+                var count = videoTodelete.Categories.Count();
+                if (count > 0)
                 {
-                    await this._videoCategoriesDomain.DeleteAsync(videoCategory.Id);
+                    foreach (var videoCategory in videoTodelete.Categories)
+                    {
+                        await this._videoCategoriesDomain.DeleteAsync(videoCategory.Id);
+                    }
                 }
-                await this._videoDomain.DeleteAsync(video.Id);
+                await this._videoDomain.DeleteAsync(videoTodelete.Id);
                 return this.Ok();
             }
             catch (Exception e)

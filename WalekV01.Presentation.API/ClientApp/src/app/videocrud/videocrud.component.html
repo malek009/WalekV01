@@ -1,7 +1,6 @@
 <h1 style="text-align: center;">Gestion des videos</h1>
 <button class="btn btn-info" routerLink="/home"> Exit</button>
 <app-modal-add-video> </app-modal-add-video>
-
 <table class="table">
     <thead>
         <tr>
@@ -15,21 +14,28 @@
     </thead>
     <tbody *ngFor="let v of videos ;let i = index">
         <tr>
-            <th scope="row">{{i}}</th>
+            <th scope="row">{{i+1}}</th>
             <td>{{v.title}}</td>
             <td>{{v.duration}}</td>
             <td>{{v.producer}}</td>
             <td>
+                <select style="width: 100px;">
+                <option  *ngFor="let c of v.categories" value=c.categories.id>{{c.categories.name}} </option>
+              </select>
+            </td>
+            <td>
                 <app-modal-show-categories [id]="v.id"></app-modal-show-categories>
             </td>
             <td>
-                <select style="width: 100px;">
-                  <option  *ngFor="let c of v.categories" value=c.categories.id>{{c.categories.name}} </option>
-                </select>
-            </td>
-            <td>
                 <app-modal-edit-video [id]="v.id"></app-modal-edit-video>
-                <button class="btn btn-danger" (click)="onDelete(v)">Delete</button>
+                <!-- <app-modal-confirm [id]="v.id"></app-modal-confirm> -->
+
+
+                <p-toast></p-toast>
+                <p-confirmPopup></p-confirmPopup>
+                <button (click)="confirm($event,v.id)" pButton icon="pi p-confirmPopup" label="Supprimer" style="color: red;"></button>
+
+
             </td>
         </tr>
     </tbody>

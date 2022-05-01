@@ -1,0 +1,15 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header" style="text-align: center;">
+        <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()" (click)="d('Cross click')"></button>
+    </div>
+    <div class="container" style="text-align: center;">
+        <h2 class="modal-title" id="modal-basic-title">Veuillez confirmer</h2>
+    </div>
+    <div class="col-12" class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="d('Cross click')">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="close()" (click)="delete()">Confirmer</button>
+    </div>
+</ng-template>
+
+<button class="btn btn-danger" (click)="open(content)">Suprimer</button>

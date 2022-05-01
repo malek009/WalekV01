@@ -23,6 +23,13 @@ import { ModalShowCategoriesComponent } from './modal-show-categories/modal-show
 import {MatSelectModule} from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalEditVideoComponent } from './modal-edit-video/modal-edit-video.component';
+import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
+import { ConfirmPopupModule } from "primeng/confirmpopup";
+import { ToastModule } from "primeng/toast";
+import { ButtonModule } from "primeng/button";
+import { ConfirmationService, MessageService } from "primeng/api";
+import {AccordionModule} from 'primeng/accordion';
+import {MenuItem} from 'primeng/api';
 
 
 @NgModule({
@@ -42,6 +49,8 @@ import { ModalEditVideoComponent } from './modal-edit-video/modal-edit-video.com
     CategorycrudComponent,
     ModalShowCategoriesComponent,
     ModalEditVideoComponent,
+    ModalConfirmComponent,
+
 
 
   ],
@@ -55,8 +64,13 @@ import { ModalEditVideoComponent } from './modal-edit-video/modal-edit-video.com
     [NgbPaginationModule, NgbAlertModule],
     MatSelectModule,
     BrowserAnimationsModule,
+    ConfirmPopupModule,
+    ToastModule,
+    ButtonModule,
+    AccordionModule
+
   ],
-  providers: [],
+  providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

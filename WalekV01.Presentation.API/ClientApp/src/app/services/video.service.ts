@@ -18,10 +18,8 @@ export class VideoService {
   numberSubject = new Subject<number>();
   videoCategories! : VideoCategories[] ;
   videoCategoriesSubject = new Subject<VideoCategories[]>();
-
   totalItem! : number;
   result !: Video;
-
   numberTotalPage! : number;
   pageNumbre! : number;
   pageSize!:  number;
@@ -34,13 +32,13 @@ export class VideoService {
     this.user = JSON.parse(localStorage.getItem('currentUser')?? '{}');
   }
 
-  delete (video : Video) {
-    this.http.post(this.url+"Delete",video).subscribe(data => {
+  delete (id : number) {
+    this.http.delete(this.url+"Delete?videoId="+id).subscribe(data => {
    });
   }
   deleteCategoriesFromVideo (id : number) {
-    return this.http.delete(this.url+"DeleteCategoryFromVideo?videoCategoriesId="+id).subscribe(data => {
-      console.log(data);
+    return this.http.delete(this.url+"DeleteCategoryFromVideo?videoCategoriesId="+id)
+                            .subscribe(data => {
     });
    }
 
@@ -50,30 +48,27 @@ export class VideoService {
       'Content-type':'application/json',
       'Authorization' : `Bearer ${this.user?.token}`
     })}).subscribe(data => {
-        console.log("data " + data);
       });
     }
-    update(video : Video) {
+  update(video : Video) {
       this.http.put<Video>(this.url+"Update",video,{headers: new HttpHeaders({
         'Content-type':'application/json',
         'Authorization' : `Bearer ${this.user?.token}`
       })}).subscribe(data => {
-        console.log(data);
       });
 
-    }
-    getCategoriesByVideoId(id : number) : VideoCategories[] {
+  }
+  getCategoriesByVideoId(id : number) : VideoCategories[] {
     this.http.get<VideoCategories[]>(this.url+"GetCategoriesByVideoId?id="+id).subscribe(
       (result : VideoCategories[])=>{
         this.videoCategories = result;
         this.videoCategoriesSubject.next(this.videoCategories);
-        console.log(this.videoCategories);
       }
     );
     return this.videoCategories;
   }
 
-    addCategoriesToVideo (categoriesId : number, videoId : number) {
+  addCategoriesToVideo (categoriesId : number, videoId : number) {
       const videoCategories = {
         videoId: videoId,
         categoriesId: categoriesId
@@ -82,13 +77,8 @@ export class VideoService {
         'Content-type':'application/json',
         'Authorization' : `Bearer ${this.user?.token}`
       })}).subscribe(data => {
-        console.log( data);
-
         });
-    }
-
-
-
+  }
 
   getVideoById(id : number) : Video {
      this.http.get<Video>(this.url+"GetById?id="+id).subscribe(
@@ -112,9 +102,6 @@ export class VideoService {
     });
     return this.totalItem;
   }
-
-
-
   getVideoByPage(numberPage: number, pageSize: number) : Video[] {
     this.http.get<Result>('https://localhost:44347/api/Video/Find?pageNumber='+numberPage+'&pageSize='+pageSize,
     {headers: new HttpHeaders({

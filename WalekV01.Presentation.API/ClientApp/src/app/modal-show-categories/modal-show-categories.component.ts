@@ -7,6 +7,8 @@ import { VideoService } from '../services/video.service';
 import { CategoriesService } from '../services/categories.service';
 import { VideoCategories } from '../models/video-categories';
 import { Video } from '../models/video';
+import { Router } from '@angular/router';
+import { VideocrudComponent } from '../videocrud/videocrud.component';
 @Component({
   selector: 'app-modal-show-categories',
   templateUrl: './modal-show-categories.component.html',
@@ -30,7 +32,9 @@ export class ModalShowCategoriesComponent implements OnInit {
   constructor(config: NgbModalConfig,
     private modalService: NgbModal,
     private categoriesService : CategoriesService,
-    private videoService : VideoService) {
+    private videoService : VideoService,
+    private videoCrud : VideocrudComponent,
+    private router : Router) {
       config.backdrop = 'static';
     config.keyboard = false;
     }
@@ -42,18 +46,16 @@ export class ModalShowCategoriesComponent implements OnInit {
     }
     close() {
     this.modalService.dismissAll();
-    if(this.listeCategoriesIdToAdd.length > 0) {
-      this.listeCategoriesIdToAdd.map(id => {
-        this.addCategoriesToVideo(id);
-      });
-    }
-    if(this.listeCategoriesIdToRemove.length > 0) {
-      this.listeCategoriesIdToRemove.map(id => {
+      if(this.listeCategoriesIdToAdd.length > 0) {
+        this.listeCategoriesIdToAdd.map(id => {
+          this.addCategoriesToVideo(id);
+        });
+      }
+      if(this.listeCategoriesIdToRemove.length > 0) {
+        this.listeCategoriesIdToRemove.map(id => {
         this.deleteCategoriesFromVideo(id);
-      });
-    }
-
-
+        });
+      }
     }
   ngOnInit(): void {
   }
@@ -63,7 +65,6 @@ export class ModalShowCategoriesComponent implements OnInit {
     this.categoriesSub = this.categoriesService.categoriesSubject.subscribe(
       (categories: Categories[]) => {
         this.categories = categories;
-        console.log(this.categories);
       }
     );
     this.categoriesService.getCategories();
@@ -77,7 +78,6 @@ export class ModalShowCategoriesComponent implements OnInit {
       (video: Video) => {
       this.video = video;
         this.VideoCategories = this.video.categories;
-      console.log(this.VideoCategories);
       }
     );
   }
@@ -93,7 +93,6 @@ export class ModalShowCategoriesComponent implements OnInit {
       this.videoService.addCategoriesToVideo(id,this.id);
     }
   }
-
 
   removeCategories(nom? : string, id? : number) {
     this.listeCategoriesToRemove.push(nom);

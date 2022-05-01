@@ -28,15 +28,12 @@ export class SinglevideoComponent implements OnInit {
 
     this.video = this.videoService.getVideoById(id);
 
-    console.log(this.video);
-
     this.videoSub = this.videoService.videoSubject.subscribe(
       (video: Video) => {
       this.video = video;
-      if(this.video.episode != null) {
+        if(this.video.episode != null) {
         this.isSerie = true;
-      }
-      console.log(this.video);
+        }
       }
     );
   }

@@ -13,7 +13,8 @@ export class CategorycrudComponent implements OnInit {
 
   categories! : Categories[] ;
   categoriesSub! : Subscription;
-  category! : Categories;
+  category! : Categories ;
+  categoryToUpdate! : Categories | undefined;
   formAdd : boolean = false;
   ngForm! : FormGroup;
   submitted : boolean =  false;
@@ -27,11 +28,11 @@ export class CategorycrudComponent implements OnInit {
     });
 
   }
-  onEdit(id : number |  undefined) {
 
-  }
   onDelete(id : number | undefined) {
-
+    if(id) {
+      this.categoriesService.delete(id);
+    }
   }
   get f() {
     return this.ngForm.controls;
