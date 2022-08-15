@@ -31,5 +31,19 @@ namespace WalekV01.Presentation.API.Controllers
                 return this.BadRequest(e.Message);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            try
+            {
+                var result = await this._actorDomain.GetAllAsync();
+                return this.Ok(this._mapper.Map<IEnumerable<ActorListViewModel>>(result));
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
+
     }
 }

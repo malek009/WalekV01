@@ -1,0 +1,23 @@
+<h1 style="text-align: center;">Gestion des Acteurs</h1>
+<button class="btn btn-info" routerLink="/home"> Exit</button>
+
+
+<div class="container">
+    <ng-template ngFor let-item [ngForOf]="actors">
+
+
+        <p-card header="{{item.name}}" subheader="Détails" [style]="{width: '260px'}" styleClass="p-card-shadow" class="single-card">
+            <ng-template pTemplate="header">
+                <img alt="Card" src="{{item.imageUrl}}" style="height: 400px; width: 260px;">
+            </ng-template>
+            <p>Date de naissaince : {{item.birthDate | date}}</p>
+            <p>Lieu de naissance : {{item.placeOfBirth}}</p>
+            <ng-template pTemplate="footer">
+                <p-button label="Save" icon="pi pi-check"></p-button>
+                <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.2em'}"></p-button>
+            </ng-template>
+        </p-card>
+
+    </ng-template>
+</div>
+<app-model-add-actor></app-model-add-actor>

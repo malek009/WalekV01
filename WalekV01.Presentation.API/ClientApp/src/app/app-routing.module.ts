@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { GestionComponent } from './gestion/gestion.component';
 import { CategorycrudComponent } from './categorycrud/categorycrud.component';
+import { ActorcrudComponent } from './actorcrud/actorcrud.component';
 
 const routes: Routes = [
   { path:'home', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path:'gestion', component : GestionComponent},
   { path:'categorycrud', component : CategorycrudComponent},
+  { path: 'actorcrud', component: ActorcrudComponent },
   { path:'', component: HomeComponent},
   { path:'**', component: NotFoundComponent}
 ];

@@ -29,7 +29,10 @@ import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
 import { ConfirmationService, MessageService } from "primeng/api";
 import {AccordionModule} from 'primeng/accordion';
-import {MenuItem} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ActorcrudComponent } from './actorcrud/actorcrud.component';
+import { ModelAddActorComponent } from './actorcrud/model-add-actor/model-add-actor.component';
+import { CardModule, } from 'primeng/card';
 
 
 @NgModule({
@@ -50,6 +53,8 @@ import {MenuItem} from 'primeng/api';
     ModalShowCategoriesComponent,
     ModalEditVideoComponent,
     ModalConfirmComponent,
+    ActorcrudComponent,
+    ModelAddActorComponent,
 
 
 
@@ -67,7 +72,9 @@ import {MenuItem} from 'primeng/api';
     ConfirmPopupModule,
     ToastModule,
     ButtonModule,
-    AccordionModule
+    AccordionModule,
+    ConfirmDialogModule,
+    CardModule
 
   ],
   providers: [ConfirmationService, MessageService],
